@@ -1,20 +1,9 @@
-# Hugo 构建输出
-public/
-resources/
+# Dependencies
+node_modules/
 
-# 操作系统文件
-.DS_Store
-Thumbs.db
-
-# 编辑器文件
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# 日志
+# Logs
 *.log
 
-# 临时文件
-.hugo_build.lock
+# OS files
+.DS_Store
+Thumbs.db
