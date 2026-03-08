@@ -18,7 +18,7 @@ summaryLength = 30
 # 主题参数
 [params]
   # 主要内容区域
-  mainSections = ["posts"]
+  mainSections = ["posts", "excerpts"]
 
   # RSS 完整内容
   rssFullContent = true
