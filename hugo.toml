@@ -1,6 +1,6 @@
 baseURL = 'https://pycv.github.io/blog/'
 languageCode = 'zh-cn'
-title = '我的博客'
+title = "To the Moon"
 theme = 'hugo-theme-stack'
 
 # 分页配置
