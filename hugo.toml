@@ -17,6 +17,9 @@ summaryLength = 30
 
 # 主题参数
 [params]
+  # favicon
+  favicon = "/favicon.png"
+
   # 主要内容区域
   mainSections = ["posts", "excerpts"]
 
