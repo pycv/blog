@@ -6,7 +6,9 @@
       "Bash(scoop install:*)",
       "Bash(hugo new:*)",
       "Bash(git:*)",
-      "Bash(hugo server:*)"
+      "Bash(hugo server:*)",
+      "Bash(ssh-keygen:*)",
+      "Bash(ssh:*)"
     ]
   }
 }
