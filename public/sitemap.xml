@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>http://localhost:9000/blog/tags/ai/</loc>
+    <lastmod>2026-03-08T18:48:00+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:9000/blog/categories/</loc>
+    <lastmod>2026-03-08T18:48:00+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:9000/blog/tags/</loc>
+    <lastmod>2026-03-08T18:48:00+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:9000/blog/</loc>
+    <lastmod>2026-03-08T18:48:00+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:9000/blog/tags/%E6%80%9D%E8%80%83/</loc>
+    <lastmod>2026-03-08T18:48:00+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:9000/blog/categories/%E6%91%98%E5%BD%95/</loc>
+    <lastmod>2026-03-08T18:48:00+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:9000/blog/tags/%E7%BC%96%E7%A8%8B/</loc>
+    <lastmod>2026-03-08T18:48:00+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:9000/blog/excerpts/2026-03-08-harness-engineering/</loc>
+    <lastmod>2026-03-08T18:48:00+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:9000/blog/about/</loc>
+    <lastmod>2026-03-08T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:9000/blog/excerpts/</loc>
+    <lastmod>2026-03-08T00:00:00+00:00</lastmod>
+  </url>
+</urlset>

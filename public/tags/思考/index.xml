@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>思考 on To the Moon</title>
+        <link>http://localhost:9000/blog/tags/%E6%80%9D%E8%80%83/</link>
+        <description>Recent content in 思考 on To the Moon</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <lastBuildDate>Sun, 08 Mar 2026 18:48:00 +0800</lastBuildDate><atom:link href="http://localhost:9000/blog/tags/%E6%80%9D%E8%80%83/index.xml" rel="self" type="application/rss+xml" /><item>
+            <title>读 OpenAI 的 Harness Engineering，我学到的几件事</title>
+            <link>http://localhost:9000/blog/excerpts/2026-03-08-harness-engineering/</link>
+            <pubDate>Sun, 08 Mar 2026 18:48:00 +0800</pubDate>
+            <guid>http://localhost:9000/blog/excerpts/2026-03-08-harness-engineering/</guid>
+            <description>&#xD;&#xA;    &lt;blockquote&gt;&#xD;&#xA;        &lt;p&gt;本文由 AI 自动摘录整理，原始链接：&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s/ZAZqs4GcCpVLJPk1NHFwuA&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;&#xD;&#xA;    &gt;读 OpenAI 的 Harness Engineering，我学到的几件事&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;推荐指数&lt;/strong&gt;：8/10（推荐读原文）&lt;/p&gt;&#xA;&#xD;&#xA;    &lt;/blockquote&gt;&#xD;&#xA;&lt;h2 id=&#34;背景&#34;&gt;背景&#xD;&#xA;&lt;/h2&gt;&lt;p&gt;OpenAI 官方博客《Harness Engineering》分享了他们内部团队如何用 Codex（基于 GPT-5 的编码 Agent）从零构建真实产品：3 名工程师在 5 个月内，全程不写一行代码，完全通过 prompt 驱动 AI 产出约 100 万行代码。文章总结了在&amp;quot;让 AI 写全部代码&amp;quot;这条路上踩过的坑和积累的经验。&lt;/p&gt;&#xA;&lt;h2 id=&#34;核心观点&#34;&gt;核心观点&#xD;&#xA;&lt;/h2&gt;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;给 Agent 一张地图，而不是百科全书&lt;/strong&gt;：AGENTS.md 精简到约 100 行，只充当目录指向结构化 docs/，避免上下文稀释和模式匹配退化&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;仓库是唯一的真相来源&lt;/strong&gt;：Agent 访问不到的东西对它不存在，偏好&amp;quot;无聊&amp;quot;但稳定的技术，有时宁可重写也不用不透明的外部依赖&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;约束越严格，Agent 越高效&lt;/strong&gt;：固定依赖方向 + 确定性 linter + LLM 审计，中央强制边界、局部允许自治，约束越清晰解空间越小&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;模型是马，驾具是缰绳&lt;/strong&gt;：未来工程师的核心能力是设计&amp;quot;驾具&amp;quot;——定义约束、构建反馈循环、管理文档结构&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;补充要点&#34;&gt;补充要点&#xD;&#xA;&lt;/h2&gt;&lt;ul&gt;&#xA;&lt;li&gt;当 Agent 搞不定时，问&amp;quot;缺了什么工具/文档/能力&amp;quot;，让 Agent 自己补，而不是自己上手&lt;/li&gt;&#xA;&lt;li&gt;大 AGENTS.md 失败的四个原因：上下文稀释、重要性通胀、快速腐烂、难以验证&lt;/li&gt;&#xA;&lt;li&gt;&amp;ldquo;纠错成本低，等待成本高&amp;rdquo;：PR 生命周期要短，让快速检测修复替代一次性做对&lt;/li&gt;&#xA;&lt;li&gt;技术债像高息贷款：持续小额偿还 &amp;gt; 复利后痛苦解决，把人类品味&amp;quot;固化&amp;quot;进系统持续执行&lt;/li&gt;&#xA;&lt;li&gt;透明内部代码比不透明外部依赖有更高&amp;quot;杠杆&amp;quot;：Agent 能看到仓库代码，但翻不了文档&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;</description>
+        </item></channel>
+</rss>
