@@ -1,0 +1,105 @@
+baseURL = 'https://example.org/'
+languageCode = 'zh-cn'
+title = '我的博客'
+theme = 'hugo-theme-stack'
+
+# 分页配置
+paginate = 5
+
+# 每页显示的文章数量
+summaryLength = 30
+
+# Hugo 版本要求
+[module]
+  [module.hugoVersion]
+    extended = true
+    min = "0.157.0"
+
+# 主题参数
+[params]
+  # 主要内容区域
+  mainSections = ["posts"]
+
+  # RSS 完整内容
+  rssFullContent = true
+
+  # 排序方式
+  sortBy = "default"
+
+  # 页脚配置
+  [params.footer]
+    since = 2026
+    customText = ""
+
+  # 日期格式
+  [params.dateFormat]
+    published = "2006-01-02"
+    lastUpdated = "2006-01-02"
+
+  # 侧边栏配置
+  [params.sidebar]
+    compact = false
+    subtitle = "记录技术与生活"
+
+  # 文章配置
+  [params.article]
+    math = false
+    toc = true
+    readingTime = true
+
+    [params.article.license]
+      enabled = false
+      default = "Licensed under CC BY-NC-SA 4.0"
+
+  # 颜色主题
+  [params.colorScheme]
+    toggle = true
+    default = "auto"
+
+  # 评论配置（可选）
+  [params.comments]
+    enabled = false
+
+# 菜单配置
+[[menu.main]]
+  identifier = "home"
+  name = "首页"
+  url = "/"
+  weight = 1
+  pre = "home"
+
+[[menu.main]]
+  identifier = "posts"
+  name = "文章"
+  url = "/posts/"
+  weight = 2
+  pre = "file-text"
+
+[[menu.main]]
+  identifier = "about"
+  name = "关于"
+  url = "/about/"
+  weight = 3
+  pre = "user"
+
+# 分类和标签
+[taxonomies]
+  category = "categories"
+  tag = "tags"
+
+# Markdown 配置
+[markup]
+  [markup.highlight]
+    lineNos = true
+    lineNumbersInTable = true
+    noClasses = false
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
+# 隐私配置
+[privacy]
+  [privacy.disqus]
+    disable = true
+  [privacy.googleAnalytics]
+    disable = true

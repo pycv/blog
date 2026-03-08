@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__web-search-prime__web_search_prime",
+      "Bash(hugo version:*)",
+      "Bash(scoop install:*)",
+      "Bash(hugo new:*)",
+      "Bash(git:*)",
+      "Bash(hugo server:*)"
+    ]
+  }
+}
