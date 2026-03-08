@@ -76,10 +76,17 @@ summaryLength = 30
   pre = "file-text"
 
 [[menu.main]]
+  identifier = "excerpts"
+  name = "摘录"
+  url = "/excerpts/"
+  weight = 3
+  pre = "book"
+
+[[menu.main]]
   identifier = "about"
   name = "关于"
   url = "/about/"
-  weight = 3
+  weight = 4
   pre = "user"
 
 # 分类和标签
