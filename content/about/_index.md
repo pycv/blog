@@ -14,9 +14,9 @@ draft = false
 
 博客名灵感来自肯尼迪 1962 年在莱斯大学的登月宣言：
 
-> "We choose to go to the moon in this decade and do the other things, **not because they are easy, but because they are hard**."
+> "We choose to go to the moon, not because they are easy, but because they are hard."
 >
-> 我们选择在这个十年内登月，不是因为它们容易，而是因为它们困难。
+> 我们选择登月，不是因为它们容易，而是因为它们困难。
 
 这句话代表了迎接挑战的勇气和探索未知的决心。技术成长也是如此——选择困难但有价值的事，持续前行。
 
