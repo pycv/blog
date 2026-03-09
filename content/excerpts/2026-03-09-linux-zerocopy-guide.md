@@ -2,7 +2,7 @@
 title: "Linux零拷贝技术终极指南：mmap、sendfile、splice、MSG_ZEROCOPY一次讲透"
 date: 2026-03-09T19:45:00+08:00
 draft: false
-tags: ["C++", "编程", "技术"]
+tags: ["Linux", "编程", "技术"]
 categories: ["摘录"]
 ---
 
