@@ -2,7 +2,7 @@
 title: "源码剖析：iostream的缓冲区设计"
 date: 2026-03-09T19:25:00+08:00
 draft: false
-tags: ["C++", "编程", "技术", "效率"]
+tags: ["C++", "编程", "技术"]
 categories: ["摘录"]
 ---
 
