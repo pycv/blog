@@ -18,18 +18,29 @@ if (!url) {
 async function fetchWechatArticle(url) {
   const browser = await chromium.launch({
     headless: true,
-    args: ['--no-sandbox', '--disable-gpu']
+    executablePath: '/snap/bin/chromium',
+    args: [
+      '--no-sandbox',
+      '--disable-gpu',
+      '--disable-dev-shm-usage',
+      '--disable-setuid-sandbox'
+    ]
   });
 
   const context = await browser.newContext({
-    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+    userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    viewport: { width: 1280, height: 800 }
   });
 
   const page = await context.newPage();
 
   try {
     // 访问页面
-    await page.goto(url, { waitUntil: 'networkidle', timeout: 30000 });
+    await page.goto(url, { waitUntil: 'load', timeout: 20000 });
+    // 等待内容容器
+    await page.waitForSelector('#js_content, .rich_media_content', { timeout: 10000 }).catch(() => {});
+    // 额外等待渲染
+    await page.waitForTimeout(2000);
 
     // 等待内容加载
     await page.waitForSelector('#js_content, .rich_media_content', { timeout: 10000 });
