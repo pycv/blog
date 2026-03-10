@@ -4,7 +4,9 @@ title = "To the Moon"
 theme = 'hugo-theme-stack'
 
 # 分页配置
-paginate = 5
+# paginate = 5 (deprecated)
+[pagination]
+  pagerSize = 5
 
 # 每页显示的文章数量
 summaryLength = 30
@@ -83,10 +85,17 @@ summaryLength = 30
   pre = "book"
 
 [[menu.main]]
+  identifier = "tags"
+  name = "标签"
+  url = "/tags/"
+  weight = 4
+  pre = "tag"
+
+[[menu.main]]
   identifier = "about"
   name = "关于"
   url = "/about/"
-  weight = 4
+  weight = 5
   pre = "user"
 
 # 分类和标签
