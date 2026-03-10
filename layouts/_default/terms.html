@@ -6,13 +6,18 @@
     {{ end }}
 </header>
 
-<div class="tag-cloud-container">
+<div class="tag-cloud">
     {{ range .Pages }}
     {{ $count := len .Pages }}
-    {{ $size := add 0.8 (mul (math.Log (add $count 1)) 0.3) }}
-    {{ if gt $size 2.0 }}{{ $size = 2.0 }}{{ end }}
-    {{ if lt $size 0.9 }}{{ $size = 0.9 }}{{ end }}
-    <a href="{{ .Permalink }}" class="tag-item" style="font-size: {{ $size }}em;">
+    {{ $class := "tag-sm" }}
+    {{ if ge $count 5 }}
+        {{ $class = "tag-xl" }}
+    {{ else if ge $count 3 }}
+        {{ $class = "tag-lg" }}
+    {{ else if eq $count 2 }}
+        {{ $class = "tag-md" }}
+    {{ end }}
+    <a href="{{ .Permalink }}" class="tag-bubble {{ $class }}">
         <span class="tag-name">{{ .Title }}</span>
         <span class="tag-count">{{ $count }}</span>
     </a>
@@ -20,58 +25,95 @@
 </div>
 
 <style>
-.tag-cloud-container {
+.tag-cloud {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
-    justify-content: flex-start;
-    padding: 30px 0;
+    gap: 15px;
+    justify-content: center;
+    padding: 40px 20px;
     align-items: center;
+    min-height: 300px;
 }
 
-.tag-item {
+.tag-bubble {
     display: inline-flex;
     align-items: center;
-    padding: 8px 16px;
-    background: var(--card-background);
-    border-radius: 20px;
+    justify-content: center;
+    border-radius: 50px;
     text-decoration: none;
-    color: var(--card-text-color-main);
-    border: 1px solid var(--card-separator-color);
-    transition: all 0.2s ease;
-    white-space: nowrap;
+    color: #fff;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    position: relative;
+    overflow: hidden;
 }
 
-.tag-item:hover {
-    background: var(--accent-color);
-    color: #fff;
-    border-color: var(--accent-color);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+.tag-bubble::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 50%);
+    pointer-events: none;
+}
+
+.tag-bubble:hover {
+    transform: scale(1.1) rotate(-2deg);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+}
+
+/* 尺寸等级 */
+.tag-xl {
+    padding: 20px 35px;
+    font-size: 1.4em;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.tag-lg {
+    padding: 16px 28px;
+    font-size: 1.2em;
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.tag-md {
+    padding: 12px 22px;
+    font-size: 1.0em;
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.tag-sm {
+    padding: 10px 18px;
+    font-size: 0.9em;
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
 }
 
 .tag-name {
-    font-weight: 500;
-    margin-right: 6px;
+    margin-right: 8px;
 }
 
 .tag-count {
-    font-size: 0.75em;
-    opacity: 0.7;
-    background: rgba(128,128,128,0.2);
-    padding: 2px 6px;
-    border-radius: 10px;
+    font-size: 0.7em;
+    opacity: 0.8;
+    background: rgba(0,0,0,0.2);
+    padding: 2px 8px;
+    border-radius: 12px;
 }
 
 .page-header {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .page-title {
-    font-size: 2em;
+    font-size: 2.2em;
     font-weight: 700;
-    margin-bottom: 10px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .page-description {
@@ -79,15 +121,22 @@
     font-size: 1.1em;
 }
 
+@media (prefers-color-scheme: dark) {
+    .tag-bubble {
+        box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    }
+}
+
 @media (max-width: 768px) {
-    .tag-cloud-container {
-        gap: 8px;
-        padding: 20px 0;
+    .tag-cloud {
+        gap: 12px;
+        padding: 25px 15px;
     }
     
-    .tag-item {
-        padding: 6px 12px;
-    }
+    .tag-xl { padding: 16px 28px; font-size: 1.2em; }
+    .tag-lg { padding: 14px 24px; font-size: 1.1em; }
+    .tag-md { padding: 10px 18px; font-size: 0.95em; }
+    .tag-sm { padding: 8px 14px; font-size: 0.85em; }
 }
 </style>
 {{ end }}
