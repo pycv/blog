@@ -1,17 +1,14 @@
 {{ define "main" }}
 <div class="terms-page">
     <header class="terms-page__header">
-        <h1 class="terms-page__title">
-            {{ with .Params.title }}{{ . }}{{ else }}{{ .Title }}{{ end }}
-        </h1>
-        <p class="terms-page__desc">{{ .Description | default "浏览所有标签，点击查看相关文章" }}</p>
+        <h1 class="terms-page__title">{{ .Title }}</h1>
+        <p class="terms-page__desc">{{ .Description | default "浏览所有标签" }}</p>
     </header>
     
     <div class="terms-page__cloud">
         {{ range .Pages.ByCount }}
         {{ $size := add 12 (mul .Count 2) }}
-        {{ if gt $size 32 }}{{ $size = 32 }}{{ end }}
-        <a href="{{ .Permalink }}" class="term-tag" style="font-size: {{ $size }}px;">
+        {{ if gt $size 32 }}{{ $size = 32 }}        <a href="{{ .Permalink }}" class="term-tag" style="font-size: {{ $size }}px;">
             <span class="term-tag__name">{{ .Title }}</span>
             <span class="term-tag__count">{{ .Count }}</span>
         </a>

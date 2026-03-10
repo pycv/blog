@@ -16,8 +16,7 @@
         <article class="taxonomy-article">
             <div class="taxonomy-article__content">
                 <h2 class="taxonomy-article__title">
-                    <a href="{{ .Permalink }}">{{ .Title }}</a>
-                </h2>
+                    <a href="{{ .Permalink }}">{{ .Title }}</a </h2>
                 <p class="taxonomy-article__excerpt">{{ .Summary | truncate 150 }}</p>
                 <div class="taxonomy-article__meta">
                     <time datetime="{{ .Date.Format "2006-01-02" }}">
