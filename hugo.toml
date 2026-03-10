@@ -43,6 +43,13 @@ summaryLength = 30
     compact = false
     subtitle = "记录技术与生活"
 
+  # 首页侧边栏 widgets
+  [params.widgets]
+    homepage = [
+      { type = "tag-cloud", params = { limit = 20 } },
+    ]
+    page = []
+
   # 文章配置
   [params.article]
     math = false
