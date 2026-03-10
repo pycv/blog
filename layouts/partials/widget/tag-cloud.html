@@ -8,14 +8,12 @@
     </div>
     <div class="tag-cloud__cloud">
         {{ range $tags.ByCount }}
-        {{ $tag := .Page.Title }}
-        {{ $count := .Count }}
+        {{ $tag := . }}
+        {{ $count := len .Pages }}
         {{ $size := add 12 (mul $count 2) }}
         {{ if gt $size 28 }}{{ $size = 28 }}{{ end }}
-        <a href="{{ "tags/" | relURL }}{{ .Page.Params.tags | urlize }}/" 
-           class="tag-cloud__tag" 
-           style="font-size: {{ $size }}px;">
-            <span class="tag-cloud__name">{{ $tag }}</span>
+        <a href="{{ .Permalink }}" class="tag-cloud__tag" style="font-size: {{ $size }}px;">
+            <span class="tag-cloud__name">{{ .Title }}</span>
             <span class="tag-cloud__count">{{ $count }}</span>
         </a>
         {{ end }}
