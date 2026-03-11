@@ -50,9 +50,7 @@ summaryLength = 30
 
   # 首页侧边栏 widgets
   [params.widgets]
-    homepage = [
-      { type = "tag-cloud", params = { limit = 20 } },
-    ]
+    homepage = []
     page = []
 
   # 文章配置
@@ -97,23 +95,15 @@ summaryLength = 30
   pre = "book"
 
 [[menu.main]]
-  identifier = "tags"
-  name = "标签"
-  url = "/tags/"
-  weight = 4
-  pre = "tag"
-
-[[menu.main]]
   identifier = "about"
   name = "关于"
   url = "/about/"
-  weight = 5
+  weight = 4
   pre = "user"
 
 # 分类和标签
 [taxonomies]
   category = "categories"
-  tag = "tags"
 
 # Markdown 配置
 [markup]
