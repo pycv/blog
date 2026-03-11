@@ -1,0 +1,28 @@
+{{- $pag := .Paginator -}}
+{{- if not $pag -}}
+    {{- $pag = $.Paginator -}}
+{{- end -}}
+{{- if gt $pag.TotalPages 1 -}}
+<nav class="pagination" role="navigation" aria-label="pagination">
+    {{- /* Previous page button */ -}}
+    <a class="page-link page-nav {{ if not $pag.Prev }}disabled{{ end }}"
+        {{- if $pag.Prev -}}href="{{ $pag.Prev.URL }}" {{- end -}}
+        aria-label="上一页" 
+        {{- if not $pag.Prev -}}aria-disabled="true"{{- end -}}>
+        上一页
+    </a>
+
+    {{- /* Page info: current / total */ -}}
+    <span class="page-info">
+        第 {{ $pag.PageNumber }} / {{ $pag.TotalPages }} 页
+    </span>
+
+    {{- /* Next page button */ -}}
+    <a class="page-link page-nav {{ if not $pag.Next }}disabled{{ end }}"
+        {{- if $pag.Next -}}href="{{ $pag.Next.URL }}" {{- end -}} 
+        aria-label="下一页"
+        {{- if not $pag.Next -}}aria-disabled="true"{{- end -}}>
+        下一页
+    </a>
+</nav>
+{{- end -}}

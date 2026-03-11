@@ -6,7 +6,12 @@ theme = 'hugo-theme-stack'
 # 分页配置
 # paginate = 5 (deprecated)
 [pagination]
-  pagerSize = 5
+  pagerSize = 3
+
+# 摘录页分页配置（通过 section 配置，Hugo 0.109+ 支持）
+# 注意：Hugo 不支持在 config 中按 section 设置 pagerSize
+# 需要在 excerpts/_index.md 的 front matter 中设置
+# 参见: https://gohugo.io/templates/pagination/
 
 # 每页显示的文章数量
 summaryLength = 30
