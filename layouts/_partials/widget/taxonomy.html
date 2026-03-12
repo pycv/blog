@@ -141,7 +141,11 @@
         var activeTags = Array.from(window.activeTagFilters);
         var allArticles = getAllArticles();
         
-        if (allArticles && activeTags.length > 0) {
+        // 如果没有选中标签且有全部文章数据，重新渲染第一页
+        if (allArticles && activeTags.length === 0) {
+            // 重新渲染第一页（显示原始分页）
+            renderFirstPage(allArticles);
+        } else if (allArticles && activeTags.length > 0) {
             renderFilteredArticles(allArticles, activeTags);
         } else {
             filterByDOM(activeTags);
@@ -151,6 +155,39 @@
         if (pagination) {
             pagination.style.display = (activeTags.length > 0 && allArticles) ? 'none' : '';
         }
+    }
+    
+    function renderFirstPage(allArticles) {
+        var container = document.getElementById('article-list');
+        if (!container) return;
+        
+        var pageSize = 10; // 与 hugo.toml 中的 pagination.pagerSize 一致
+        var firstPage = allArticles.slice(0, pageSize);
+        
+        var html = '';
+        firstPage.forEach(function(article) {
+            var categoryHtml = '';
+            if (article.category) {
+                categoryHtml = '<header class="article-category"><a href="/blog/categories/' + 
+                    encodeURIComponent(article.category) + '/" style="background-color:#efbec3;color:#3d0f15">' + 
+                    article.category + '</a></header>';
+            }
+            
+            html += '<article class="article-filter-item" data-tags="' + article.tags.join(',') + '"><header class="article-header"><div class="article-details">' +
+                categoryHtml +
+                '<div class="article-title-wrapper"><h2 class="article-title">' +
+                '<a href="' + article.url + '">' + escapeHtml(article.title) + '</a>' +
+                '</h2></div>' +
+                '<footer class="article-meta"><div class="inline-meta">' +
+                '<svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>' +
+                '<time class="article-time--published">' + article.date + '</time>' +
+                '<svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>' +
+                '<time class="article-time--reading">' + article.readingTime + ' minute read</time>' +
+                '</div></footer></div></header></article>';
+        });
+        
+        container.innerHTML = html;
+        updateVisibleCount(allArticles.length);
     }
     
     function renderFilteredArticles(allArticles, activeTags) {
