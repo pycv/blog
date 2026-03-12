@@ -50,7 +50,9 @@ summaryLength = 30
 
   # 首页侧边栏 widgets
   [params.widgets]
-    homepage = []
+    homepage = [
+      { type = "tag-cloud", params = { limit = 20 } },
+    ]
     page = []
 
   # 文章配置
@@ -104,7 +106,7 @@ summaryLength = 30
 # 分类和标签
 [taxonomies]
   category = "categories"
-  # tag = "tags"  # 禁用独立 tags 页面，但文章 front matter 中的 tags 仍可用于标签云
+  tag = "tags"
 
 # Markdown 配置
 [markup]
