@@ -6,6 +6,7 @@
 {{- $showLink := default true .Params.showLink -}}
 {{- $widgetTitle := .Params.title -}}
 {{- $isTags := eq $taxonomyName "tags" -}}
+{{- $isHomepage := not $sectionFilter -}}
 
 {{/* 获取 taxonomy 数据，支持按 section 过滤 */}}
 {{- $taxonomyData := dict -}}
@@ -78,6 +79,15 @@
 (function() {
     window.activeTagFilters = window.activeTagFilters || new Set();
     
+    // 获取嵌入的文章数据（仅首页有）
+    function getAllArticles() {
+        const dataScript = document.getElementById('all-articles-data');
+        if (dataScript) {
+            return JSON.parse(dataScript.textContent);
+        }
+        return null;
+    }
+    
     window.toggleTagFilter = function(el) {
         const tag = el.dataset.tag;
         
@@ -103,8 +113,74 @@
     };
     
     function applyTagFilters() {
-        const articles = document.querySelectorAll('.article-filter-item');
         const activeTags = Array.from(window.activeTagFilters);
+        const allArticles = getAllArticles();
+        
+        // 如果有全部文章数据，用动态渲染方式
+        if (allArticles && activeTags.length > 0) {
+            renderFilteredArticles(allArticles, activeTags);
+        } else {
+            // 回退到 DOM 筛选方式（section 页面）
+            filterByDOM(activeTags);
+        }
+        
+        // 显示/隐藏分页
+        const pagination = document.querySelector('.pagination');
+        if (pagination) {
+            pagination.style.display = activeTags.length > 0 && allArticles ? 'none' : '';
+        }
+    }
+    
+    function renderFilteredArticles(allArticles, activeTags) {
+        const container = document.getElementById('article-list');
+        if (!container) return;
+        
+        // 筛选匹配的文章
+        const filtered = allArticles.filter(article => {
+            return activeTags.every(tag => article.tags && article.tags.includes(tag));
+        });
+        
+        // 生成 HTML
+        let html = '';
+        filtered.forEach(article => {
+            const categoryStyle = article.category ? 
+                `style="background-color:#efbec3;color:#3d0f15"` : '';
+            const categoryHtml = article.category ? 
+                `<header class="article-category"><a href="/blog/categories/${encodeURIComponent(article.category)}/" ${categoryStyle}>${article.category}</a></header>` : '';
+            
+            html += `
+                <article class="article-filter-item">
+                    <header class="article-header">
+                        <div class="article-details">
+                            ${categoryHtml}
+                            <div class="article-title-wrapper">
+                                <h2 class="article-title">
+                                    <a href="${article.url}">${escapeHtml(article.title)}</a>
+                                </h2>
+                            </div>
+                            <footer class="article-meta">
+                                <div class="inline-meta">
+                                    <svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+                                    <time class="article-time--published">${article.date}</time>
+                                    <svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+                                    <time class="article-time--reading">${article.readingTime} minute read</time>
+                                </div>
+                            </footer>
+                        </div>
+                    </header>
+                </article>`;
+        });
+        
+        if (filtered.length === 0) {
+            html = '<div style="padding: 20px; text-align: center; opacity: 0.7;">没有匹配的文章</div>';
+        }
+        
+        container.innerHTML = html;
+        updateVisibleCount(filtered.length);
+    }
+    
+    function filterByDOM(activeTags) {
+        const articles = document.querySelectorAll('.article-filter-item');
         
         articles.forEach(article => {
             const articleTags = (article.dataset.tags || '').split(',').filter(t => t);
@@ -119,6 +195,12 @@
         
         const visibleCount = document.querySelectorAll('.article-filter-item:not([style*="display: none"])').length;
         updateVisibleCount(visibleCount);
+    }
+    
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
     }
     
     function updateFilterActions() {
