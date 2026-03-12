@@ -50,9 +50,7 @@ summaryLength = 30
 
   # 首页侧边栏 widgets
   [params.widgets]
-    homepage = [
-      { type = "tag-cloud", params = { limit = 20 } },
-    ]
+    homepage = []
     page = []
 
   # 文章配置
