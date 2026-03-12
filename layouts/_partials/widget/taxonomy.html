@@ -1,20 +1,34 @@
 {{- $context := .Context -}}
-
-{{- if not .Params.taxonomy -}}
-    {{- warnf "Taxonomy field is required" -}}
-{{- end -}}
-
-{{- $taxonomy := index $context.Site.Taxonomies .Params.taxonomy -}}
-{{- if not $taxonomy -}}
-    {{- warnf "Taxonomy %s not found" .Params.taxonomy -}}
-{{- end -}}
-
-{{- $taxonomyPage := $taxonomy.Page -}}
-{{- $widgetTitle := .Params.title -}}
+{{- $taxonomyName := .Params.taxonomy -}}
+{{- $sectionFilter := .Params.section -}}
 {{- $limit := default 10 .Params.limit -}}
-{{- $icon := default .Params.taxonomy .Params.icon -}}
+{{- $icon := default $taxonomyName .Params.icon -}}
 {{- $showLink := default true .Params.showLink -}}
-{{- $isTags := eq .Params.taxonomy "tags" -}}
+{{- $widgetTitle := .Params.title -}}
+{{- $isTags := eq $taxonomyName "tags" -}}
+
+{{/* 获取 taxonomy 数据，支持按 section 过滤 */}}
+{{- $taxonomyData := dict -}}
+{{- if $sectionFilter -}}
+    {{- $sectionPage := $context.Site.GetPage $sectionFilter -}}
+    {{- if $sectionPage -}}
+        {{- range $sectionPage.Pages -}}
+            {{- range .GetTerms $taxonomyName -}}
+                {{- $count := index $taxonomyData .LinkTitle | default 0 -}}
+                {{- $taxonomyData = merge $taxonomyData (dict .LinkTitle (add $count 1)) -}}
+            {{- end -}}
+        {{- end -}}
+    {{- end -}}
+{{- else -}}
+    {{- $siteTaxonomy := index $context.Site.Taxonomies $taxonomyName -}}
+    {{- if $siteTaxonomy -}}
+        {{- range $siteTaxonomy.ByCount -}}
+            {{- $taxonomyData = merge $taxonomyData (dict .Page.Title .Count) -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+
+{{- $taxonomyPage := (index $context.Site.Taxonomies $taxonomyName).Page -}}
 
 <section class="widget tagCloud{{ if $isTags }}" id="tag-filter-widget{{ end }}">
     <div class="widget-icon">
@@ -34,20 +48,22 @@
     </h2>
 
     <div class="tagCloud-tags{{ if $isTags }} tag-filter-tags{{ end }}">
-        {{ range first $limit $taxonomy.ByCount }}
+        {{- $sorted := slice -}}
+        {{- range $tag, $count := $taxonomyData -}}
+            {{- $sorted = $sorted | append (dict "tag" $tag "count" $count) -}}
+        {{- end -}}
+        {{- range first $limit (sort $sorted "count" "desc") -}}
             {{ if $isTags }}
             <a href="javascript:void(0);" 
                class="tag-filter-btn" 
-               data-tag="{{ .Page.Title }}"
+               data-tag="{{ .tag }}"
                onclick="toggleTagFilter(this)">
-                {{ .Page.Title }}
+                {{ .tag }}
             </a>
             {{ else }}
-            <a href="{{ .Page.RelPermalink }}">
-                {{ .Page.Title }}
-            </a>
+            <span class="taxonomy-tag">{{ .tag }}</span>
             {{ end }}
-        {{ end }}
+        {{- end -}}
     </div>
     
     {{ if $isTags }}
@@ -60,7 +76,6 @@
 {{ if $isTags }}
 <script>
 (function() {
-    // 状态存储
     window.activeTagFilters = window.activeTagFilters || new Set();
     
     window.toggleTagFilter = function(el) {

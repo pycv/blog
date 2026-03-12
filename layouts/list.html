@@ -74,5 +74,12 @@
 {{ end }}
 
 {{ define "right-sidebar" }}
-    {{ partial "sidebar/right.html" (dict "Context" . "Scope" "homepage") }}
+    {{- $scope := "homepage" -}}
+    {{- $section := .Section -}}
+    {{- if eq $section "posts" }}
+        {{- $scope = "posts" }}
+    {{- else if eq $section "excerpts" }}
+        {{- $scope = "excerpts" }}
+    {{- end -}}
+    {{ partial "sidebar/right.html" (dict "Context" . "Scope" $scope) }}
 {{ end }}
