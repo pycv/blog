@@ -1,0 +1,153 @@
+{{- $context := .Context -}}
+
+{{- if not .Params.taxonomy -}}
+    {{- warnf "Taxonomy field is required" -}}
+{{- end -}}
+
+{{- $taxonomy := index $context.Site.Taxonomies .Params.taxonomy -}}
+{{- if not $taxonomy -}}
+    {{- warnf "Taxonomy %s not found" .Params.taxonomy -}}
+{{- end -}}
+
+{{- $taxonomyPage := $taxonomy.Page -}}
+{{- $widgetTitle := .Params.title -}}
+{{- $limit := default 10 .Params.limit -}}
+{{- $icon := default .Params.taxonomy .Params.icon -}}
+{{- $showLink := default true .Params.showLink -}}
+{{- $isTags := eq .Params.taxonomy "tags" -}}
+
+<section class="widget tagCloud{{ if $isTags }}" id="tag-filter-widget{{ end }}">
+    <div class="widget-icon">
+        {{ partial "helper/icon" $icon }}
+    </div>
+    <h2 class="widget-title section-title">
+        {{ if $showLink }}
+            <a href="{{ $taxonomyPage.RelPermalink }}">
+                {{ $widgetTitle }}
+            </a>
+        {{ else }}
+            {{ $widgetTitle }}
+        {{ end }}
+        {{ if $isTags }}
+        <span class="tag-filter-hint" style="font-size: 0.7em; opacity: 0.6; margin-left: 4px;">点击筛选</span>
+        {{ end }}
+    </h2>
+
+    <div class="tagCloud-tags{{ if $isTags }} tag-filter-tags{{ end }}">
+        {{ range first $limit $taxonomy.ByCount }}
+            {{ if $isTags }}
+            <a href="javascript:void(0);" 
+               class="tag-filter-btn" 
+               data-tag="{{ .Page.Title }}"
+               onclick="toggleTagFilter(this)">
+                {{ .Page.Title }}
+            </a>
+            {{ else }}
+            <a href="{{ .Page.RelPermalink }}">
+                {{ .Page.Title }}
+            </a>
+            {{ end }}
+        {{ end }}
+    </div>
+    
+    {{ if $isTags }}
+    <div class="tag-filter-actions" style="margin-top: 8px; display: none;" id="tag-filter-actions">
+        <a href="javascript:void(0);" onclick="clearTagFilters()" style="font-size: 0.85em; opacity: 0.7;">清除筛选</a>
+    </div>
+    {{ end }}
+</section>
+
+{{ if $isTags }}
+<script>
+(function() {
+    // 状态存储
+    window.activeTagFilters = window.activeTagFilters || new Set();
+    
+    window.toggleTagFilter = function(el) {
+        const tag = el.dataset.tag;
+        
+        if (window.activeTagFilters.has(tag)) {
+            window.activeTagFilters.delete(tag);
+            el.classList.remove('active');
+        } else {
+            window.activeTagFilters.add(tag);
+            el.classList.add('active');
+        }
+        
+        applyTagFilters();
+        updateFilterActions();
+    };
+    
+    window.clearTagFilters = function() {
+        window.activeTagFilters.clear();
+        document.querySelectorAll('.tag-filter-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        applyTagFilters();
+        updateFilterActions();
+    };
+    
+    function applyTagFilters() {
+        const articles = document.querySelectorAll('.article-filter-item');
+        const activeTags = Array.from(window.activeTagFilters);
+        
+        articles.forEach(article => {
+            const articleTags = (article.dataset.tags || '').split(',').filter(t => t);
+            
+            if (activeTags.length === 0) {
+                article.style.display = '';
+            } else {
+                const hasAllTags = activeTags.every(tag => articleTags.includes(tag));
+                article.style.display = hasAllTags ? '' : 'none';
+            }
+        });
+        
+        const visibleCount = document.querySelectorAll('.article-filter-item:not([style*="display: none"])').length;
+        updateVisibleCount(visibleCount);
+    }
+    
+    function updateFilterActions() {
+        const actions = document.getElementById('tag-filter-actions');
+        if (window.activeTagFilters.size > 0) {
+            actions.style.display = 'block';
+        } else {
+            actions.style.display = 'none';
+        }
+    }
+    
+    function updateVisibleCount(count) {
+        let countEl = document.getElementById('filter-count');
+        if (!countEl && window.activeTagFilters.size > 0) {
+            countEl = document.createElement('div');
+            countEl.id = 'filter-count';
+            countEl.style.cssText = 'font-size: 0.85em; opacity: 0.7; margin-top: 4px;';
+            const widget = document.getElementById('tag-filter-widget');
+            if (widget) widget.appendChild(countEl);
+        }
+        if (countEl) {
+            if (window.activeTagFilters.size > 0) {
+                countEl.textContent = '显示 ' + count + ' 篇文章';
+                countEl.style.display = 'block';
+            } else {
+                countEl.style.display = 'none';
+            }
+        }
+    }
+})();
+</script>
+
+<style>
+.tag-filter-btn {
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.tag-filter-btn.active {
+    background: var(--card-text-color-main, #333);
+    color: var(--card-background-color, #fff);
+    border-radius: 4px;
+}
+.tag-filter-btn:hover {
+    opacity: 0.8;
+}
+</style>
+{{ end }}

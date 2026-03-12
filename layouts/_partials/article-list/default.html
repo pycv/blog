@@ -1,0 +1,9 @@
+{{ $image := partial "helper/image" (dict "Image" .Params.image "Resources" .Resources "Context" .) }}
+{{ $tags := .GetTerms "tags" }}
+{{ $tagNames := slice }}
+{{ range $tags }}
+    {{ $tagNames = $tagNames | append .LinkTitle }}
+{{ end }}
+<article class="article-filter-item {{ if $image }}has-image{{ end }}" data-tags="{{ delimit $tagNames "," }}">
+    {{ partial "article/components/header" (dict "Page" . "IsList" true) }}
+</article>
