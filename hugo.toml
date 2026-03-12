@@ -52,6 +52,12 @@ summaryLength = 30
     homepage = [
       { type = "tag-cloud", params = { limit = 20 } },
     ]
+    posts = [
+      { type = "tag-cloud", params = { limit = 20, section = "posts" } },
+    ]
+    excerpts = [
+      { type = "tag-cloud", params = { limit = 20, section = "excerpts" } },
+    ]
     page = []
 
   # 文章配置
