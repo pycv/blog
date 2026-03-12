@@ -98,7 +98,7 @@
         "readingTime" .ReadingTime
     ) -}}
 {{- end -}}
-{{ $articles | jsonify }}
+{{ $articles | jsonify | safeJS }}
 </script>
 {{ end }}
 <script>
