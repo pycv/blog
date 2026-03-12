@@ -1,6 +1,5 @@
 {{ define "main" }}
     {{- $paginator := partial "helper/paginator.html" . -}}
-    {{- $allPages := where .Site.RegularPages "Type" "in" .Site.Params.mainSections -}}
 
     <section class="article-list" id="article-list">
         {{ range $index, $element := $paginator.Pages }}
@@ -10,30 +9,6 @@
 
     {{- partial "pagination.html" (dict "Paginator" $paginator) -}}
     {{- partial "footer/footer" . -}}
-
-    {{/* 嵌入所有文章数据，供前端筛选使用 */}}
-    <script id="all-articles-data" type="application/json">
-    {{- $articles := slice -}}
-    {{- range $allPages -}}
-        {{- $tags := slice -}}
-        {{- range .GetTerms "tags" -}}
-            {{- $tags = $tags | append .LinkTitle -}}
-        {{- end -}}
-        {{- $category := "" -}}
-        {{- range .GetTerms "categories" -}}
-            {{- $category = .LinkTitle -}}
-        {{- end -}}
-        {{- $articles = $articles | append (dict 
-            "title" .Title 
-            "url" .RelPermalink 
-            "tags" $tags 
-            "category" $category
-            "date" (.Date.Format "2006-01-02")
-            "readingTime" .ReadingTime
-        ) -}}
-    {{- end -}}
-    {{ $articles | jsonify }}
-    </script>
 {{ end }}
 
 {{ define "right-sidebar" }}
