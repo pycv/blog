@@ -97,13 +97,6 @@ summaryLength = 30
   pre = "book"
 
 [[menu.main]]
-  identifier = "tags"
-  name = "标签"
-  url = "/tags/"
-  weight = 4
-  pre = "tag"
-
-[[menu.main]]
   identifier = "about"
   name = "关于"
   url = "/about/"
@@ -113,7 +106,7 @@ summaryLength = 30
 # 分类和标签
 [taxonomies]
   category = "categories"
-  tag = "tags"
+  # tag = "tags"  # 禁用独立 tags 页面，但文章 front matter 中的 tags 仍可用于标签云
 
 # Markdown 配置
 [markup]
