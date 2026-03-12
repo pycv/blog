@@ -2,7 +2,7 @@
 title: "用 AI 写 Chrome 插件，修一个 Bug 出两个 Bug"
 date: 2026-03-12T02:35:00+08:00
 draft: false
-tags: ["吐槽", "AI编程", "Chrome"]
+tags: ["吐槽", "AI", "Chrome"]
 categories: ["随笔"]
 ---
 
