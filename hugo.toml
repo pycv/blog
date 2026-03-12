@@ -4,9 +4,8 @@ title = "To the Moon"
 theme = 'hugo-theme-stack'
 
 # 分页配置
-# paginate = 5 (deprecated)
 [pagination]
-  pagerSize = 3
+  pagerSize = 10
 
 # 摘录页分页配置（通过 section 配置，Hugo 0.109+ 支持）
 # 注意：Hugo 不支持在 config 中按 section 设置 pagerSize
