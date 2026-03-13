@@ -2,7 +2,7 @@
 title: "从0到1吃透MMU与分页：内存管理的底层原理"
 date: 2026-03-13T08:53:00+08:00
 draft: false
-tags: ["Linux", "技术", "编程"]
+tags: ["Linux", "MMU", "内存管理", "分页", "TLB", "操作系统", "技术"]
 categories: ["摘录"]
 ---
 
