@@ -2,7 +2,7 @@
 title: "什么是 Agent Skills？Claude 技能包机制详解"
 date: 2026-03-10T20:38:00+08:00
 draft: false
-tags: ["AI", "工具", "效率"]
+tags: ["AI", "skills", "工具", "效率"]
 categories: ["摘录"]
 ---
 
