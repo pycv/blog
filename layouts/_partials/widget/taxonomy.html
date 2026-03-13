@@ -58,8 +58,9 @@
             <a href="javascript:void(0);" 
                class="tag-filter-btn" 
                data-tag="{{ .tag }}"
+               data-count="{{ .count }}"
                onclick="toggleTagFilter(this)">
-                {{ .tag }}
+                {{ .tag }}<span class="tag-count">{{ .count }}</span>
             </a>
             {{ else }}
             <span class="taxonomy-tag">{{ .tag }}</span>
@@ -155,6 +156,76 @@
         if (pagination) {
             pagination.style.display = (activeTags.length > 0 && allArticles) ? 'none' : '';
         }
+        
+        // 更新可用标签列表（级联筛选）
+        updateAvailableTags(allArticles, activeTags);
+    }
+    
+    function updateAvailableTags(allArticles, activeTags) {
+        var tagButtons = document.querySelectorAll('.tag-filter-btn');
+        
+        // 如果没有选中任何标签，恢复所有标签显示
+        if (activeTags.length === 0) {
+            tagButtons.forEach(function(btn) {
+                btn.style.display = '';
+                var countEl = btn.querySelector('.tag-count');
+                if (countEl) {
+                    countEl.textContent = btn.dataset.count;
+                }
+            });
+            return;
+        }
+        
+        // 获取当前筛选后的文章
+        var filteredArticles;
+        if (allArticles) {
+            filteredArticles = allArticles.filter(function(article) {
+                return activeTags.every(function(tag) {
+                    return article.tags && article.tags.includes(tag);
+                });
+            });
+        } else {
+            // 从 DOM 获取筛选后的文章
+            var visibleArticles = document.querySelectorAll('.article-filter-item:not([style*="display: none"])');
+            filteredArticles = [];
+            visibleArticles.forEach(function(article) {
+                var tags = (article.dataset.tags || '').split(',').filter(function(t) { return t; });
+                filteredArticles.push({ tags: tags });
+            });
+        }
+        
+        // 统计共现标签
+        var cooccurringTags = {};
+        filteredArticles.forEach(function(article) {
+            if (article.tags) {
+                article.tags.forEach(function(tag) {
+                    // 排除已选中的标签
+                    if (!activeTags.includes(tag)) {
+                        cooccurringTags[tag] = (cooccurringTags[tag] || 0) + 1;
+                    }
+                });
+            }
+        });
+        
+        // 更新标签按钮显示状态
+        tagButtons.forEach(function(btn) {
+            var tag = btn.dataset.tag;
+            var countEl = btn.querySelector('.tag-count');
+            
+            if (activeTags.includes(tag)) {
+                // 已选中的标签保持显示
+                btn.style.display = '';
+            } else if (cooccurringTags.hasOwnProperty(tag)) {
+                // 共现标签显示并更新计数
+                btn.style.display = '';
+                if (countEl) {
+                    countEl.textContent = cooccurringTags[tag];
+                }
+            } else {
+                // 非共现标签隐藏
+                btn.style.display = 'none';
+            }
+        });
     }
     
     function renderFirstPage(allArticles) {
@@ -299,6 +370,11 @@
 }
 .tag-filter-btn:hover {
     opacity: 0.8;
+}
+.tag-count {
+    font-size: 0.75em;
+    opacity: 0.6;
+    margin-left: 2px;
 }
 </style>
 {{ end }}
