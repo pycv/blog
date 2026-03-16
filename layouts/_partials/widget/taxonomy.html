@@ -239,8 +239,17 @@
         firstPage.forEach(function(article) {
             var categoryHtml = '';
             if (article.category) {
+                var categoryColor = '#efbec3'; // 默认粉色
+                var categoryTextColor = '#3d0f15';
+                
+                // 随笔分类使用青绿色
+                if (article.category === '随笔') {
+                    categoryColor = '#10b981';  // 青绿色
+                    categoryTextColor = '#ffffff';
+                }
+                
                 categoryHtml = '<header class="article-category"><a href="/blog/categories/' + 
-                    encodeURIComponent(article.category) + '/" style="background-color:#efbec3;color:#3d0f15">' + 
+                    encodeURIComponent(article.category) + '/" style="background-color:' + categoryColor + ';color:' + categoryTextColor + '">' + 
                     article.category + '</a></header>';
             }
             
@@ -275,8 +284,17 @@
         filtered.forEach(function(article) {
             var categoryHtml = '';
             if (article.category) {
+                var categoryColor = '#efbec3'; // 默认粉色
+                var categoryTextColor = '#3d0f15';
+                
+                // 随笔分类使用青绿色
+                if (article.category === '随笔') {
+                    categoryColor = '#10b981';  // 青绿色
+                    categoryTextColor = '#ffffff';
+                }
+                
                 categoryHtml = '<header class="article-category"><a href="/blog/categories/' + 
-                    encodeURIComponent(article.category) + '/" style="background-color:#efbec3;color:#3d0f15">' + 
+                    encodeURIComponent(article.category) + '/" style="background-color:' + categoryColor + ';color:' + categoryTextColor + '">' + 
                     article.category + '</a></header>';
             }
             
