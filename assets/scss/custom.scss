@@ -264,20 +264,20 @@
 /* 首页文章卡片中的随笔标签 */
 .article-category a[href*="/categories/随笔"],
 .article-category a[href*="categories/%E9%9A%8F%E7%AC%94"] {
-    background-color: #10b981 !important;
-    color: white !important;
+    background-color: #86efac !important;
+    color: #065f46 !important;
 }
 
 /* 标签云中的随笔标签 */
 .term-tag[href*="/tags/随笔"],
 .term-tag[href*="tags/%E9%9A%8F%E7%AC%94"] {
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(52, 211, 153, 0.15));
-    border-color: rgba(16, 185, 129, 0.3);
+    background: linear-gradient(135deg, rgba(134, 239, 172, 0.3), rgba(6, 95, 70, 0.15));
+    border-color: rgba(134, 239, 172, 0.4);
 }
 
 .term-tag[href*="/tags/随笔"]:hover,
 .term-tag[href*="tags/%E9%9A%8F%E7%AC%94"]:hover {
-    background: linear-gradient(135deg, #10b981, #34d399);
-    color: white;
+    background: linear-gradient(135deg, #86efac, #34d399);
+    color: #065f46;
     border-color: transparent;
 }
