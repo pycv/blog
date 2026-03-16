@@ -375,6 +375,18 @@
 })();
 </script>
 
+{{ if $isHomepage }}
+<script>
+// 页面加载时用 JS 重新渲染第一页（使用自定义颜色）
+document.addEventListener('DOMContentLoaded', function() {
+    var allArticles = getAllArticles();
+    if (allArticles && typeof renderFirstPage === 'function') {
+        renderFirstPage(allArticles);
+    }
+});
+</script>
+{{ end }}
+
 <style>
 .tag-filter-btn {
     cursor: pointer;
