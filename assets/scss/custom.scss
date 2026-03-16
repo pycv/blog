@@ -237,11 +237,11 @@
         gap: 8px;
         padding: 15px;
     }
-    
+
     .term-tag {
         padding: 6px 12px;
     }
-    
+
     .taxonomy-article {
         padding: 15px;
     }
@@ -257,4 +257,27 @@
             font-size: 0.85em;
         }
     }
+}
+
+/* ==================== 随笔标签青绿色样式 ==================== */
+
+/* 首页文章卡片中的随笔标签 */
+.article-category a[href*="/categories/随笔"],
+.article-category a[href*="categories/%E9%9A%8F%E7%AC%94"] {
+    background-color: #10b981 !important;
+    color: white !important;
+}
+
+/* 标签云中的随笔标签 */
+.term-tag[href*="/tags/随笔"],
+.term-tag[href*="tags/%E9%9A%8F%E7%AC%94"] {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(52, 211, 153, 0.15));
+    border-color: rgba(16, 185, 129, 0.3);
+}
+
+.term-tag[href*="/tags/随笔"]:hover,
+.term-tag[href*="tags/%E9%9A%8F%E7%AC%94"]:hover {
+    background: linear-gradient(135deg, #10b981, #34d399);
+    color: white;
+    border-color: transparent;
 }
