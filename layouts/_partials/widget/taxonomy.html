@@ -379,10 +379,47 @@
 <script>
 // 页面加载时用 JS 重新渲染第一页（使用自定义颜色）
 document.addEventListener('DOMContentLoaded', function() {
-    var allArticles = getAllArticles();
-    if (allArticles && typeof renderFirstPage === 'function') {
-        renderFirstPage(allArticles);
-    }
+    var dataScript = document.getElementById('all-articles-data');
+    if (!dataScript) return;
+    
+    var allArticles = JSON.parse(dataScript.textContent);
+    if (!allArticles || allArticles.length === 0) return;
+    
+    var container = document.getElementById('article-list');
+    if (!container) return;
+    
+    var pageSize = 10;
+    var firstPage = allArticles.slice(0, pageSize);
+    
+    var html = '';
+    firstPage.forEach(function(article) {
+        var categoryHtml = '';
+        if (article.category) {
+            var categoryColor = '#efbec3';
+            var categoryTextColor = '#3d0f15';
+            
+            if (article.category === '随笔') {
+                categoryColor = '#86efac';
+                categoryTextColor = '#065f46';
+            }
+            
+            categoryHtml = '<header class="article-category"><a href="/blog/categories/' + 
+                encodeURIComponent(article.category) + '/" style="background-color:' + categoryColor + ';color:' + categoryTextColor + '">' + 
+                article.category + '</a></header>';
+        }
+        
+        html += '<article class="article-filter-item" data-tags="' + article.tags.join(',') + '"><header class="article-header"><div class="article-details">' +
+            categoryHtml +
+            '<div class="article-title-wrapper"><h2 class="article-title">' +
+            '<a href="' + article.url + '">' + article.title + '</a>' +
+            '</h2></div>' +
+            '<footer class="article-meta"><div class="inline-meta">' +
+            '<time class="article-time--published">' + article.date + '</time>' +
+            '<time class="article-time--reading">' + article.readingTime + ' minute read</time>' +
+            '</div></footer></div></header></article>';
+    });
+    
+    container.innerHTML = html;
 });
 </script>
 {{ end }}
