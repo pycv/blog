@@ -259,6 +259,81 @@
     }
 }
 
+/* ==================== 响应式三栏布局优化 ==================== */
+
+/* 
+ * 让左右侧栏也能随窗口宽度动态调整
+ * 而不是只有中间的文章卡片在变
+ */
+
+.main-container {
+    // 在中等屏幕上，让三栏都按比例收缩
+    @media (min-width: 768px) and (max-width: 1280px) {
+        // 左侧导航栏允许收缩
+        .left-sidebar {
+            flex-shrink: 1;
+            min-width: 180px; // 最小宽度，防止太窄
+        }
+        
+        // 右侧标签栏允许收缩
+        .right-sidebar {
+            flex-shrink: 1;
+            min-width: 200px; // 最小宽度
+        }
+        
+        // 中间文章区保持弹性
+        main.main {
+            flex-shrink: 1;
+            min-width: 300px; // 确保文章区有足够宽度
+        }
+    }
+    
+}
+
+/* 在更小的中等屏幕上，进一步压缩侧栏 */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .container {
+        // 调整 CSS 变量，让侧栏占比更小
+        --left-sidebar-max-width: 18% !important;
+        --right-sidebar-max-width: 22% !important;
+    }
+    
+    .left-sidebar {
+        // 稍微减小导航栏内边距
+        padding-left: 8px;
+        padding-right: 8px;
+        
+        // 稍微缩小头像和字体
+        --sidebar-avatar-size: 80px !important;
+        
+        .site-name {
+            font-size: 1.3rem !important;
+        }
+        
+        .site-description {
+            font-size: 1.2rem !important;
+        }
+    }
+    
+    .right-sidebar {
+        // 稍微减小标签栏内边距
+        padding-left: 8px;
+        padding-right: 8px;
+        
+        // 稍微缩小标签字体
+        .tag-filter-btn {
+            font-size: 0.9em;
+        }
+    }
+}
+
+/* 平滑过渡动画 */
+.left-sidebar,
+.right-sidebar,
+main.main {
+    transition: all 0.3s ease;
+}
+
 /* ==================== 随笔标签青绿色样式 ==================== */
 
 /* 首页文章卡片中的随笔标签 */
