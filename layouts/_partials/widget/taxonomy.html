@@ -377,8 +377,7 @@
 
 {{ if $isHomepage }}
 <script>
-// 页面加载时用 JS 重新渲染第一页（使用自定义颜色）
-// 只在真正的首页执行，分页页面跳过
+// 无限滚动 + 标签筛选
 document.addEventListener('DOMContentLoaded', function() {
     // 检测是否是分页页面（URL 包含 /page/）
     if (window.location.pathname.match(/\/page\/\d+\/?$/)) {
@@ -394,38 +393,123 @@ document.addEventListener('DOMContentLoaded', function() {
     var container = document.getElementById('article-list');
     if (!container) return;
     
+    var pagination = document.querySelector('.pagination');
     var pageSize = 10;
-    var firstPage = allArticles.slice(0, pageSize);
+    var currentPage = 1;
+    var isLoading = false;
     
-    var html = '';
-    firstPage.forEach(function(article) {
-        var categoryHtml = '';
-        if (article.category) {
-            var categoryColor = '#efbec3';
-            var categoryTextColor = '#3d0f15';
-            
-            if (article.category === '随笔') {
-                categoryColor = '#86efac';
-                categoryTextColor = '#065f46';
+    // 渲染文章卡片
+    function renderArticles(articles, append) {
+        var html = '';
+        articles.forEach(function(article) {
+            var categoryHtml = '';
+            if (article.category) {
+                var categoryColor = '#efbec3';
+                var categoryTextColor = '#3d0f15';
+                
+                if (article.category === '随笔') {
+                    categoryColor = '#86efac';
+                    categoryTextColor = '#065f46';
+                }
+                
+                categoryHtml = '<header class="article-category"><a href="/blog/categories/' + 
+                    encodeURIComponent(article.category) + '/" style="background-color:' + categoryColor + ';color:' + categoryTextColor + '">' + 
+                    article.category + '</a></header>';
             }
             
-            categoryHtml = '<header class="article-category"><a href="/blog/categories/' + 
-                encodeURIComponent(article.category) + '/" style="background-color:' + categoryColor + ';color:' + categoryTextColor + '">' + 
-                article.category + '</a></header>';
+            html += '<article class="article-filter-item" data-tags="' + article.tags.join(',') + '"><header class="article-header"><div class="article-details">' +
+                categoryHtml +
+                '<div class="article-title-wrapper"><h2 class="article-title">' +
+                '<a href="' + article.url + '">' + escapeHtml(article.title) + '</a>' +
+                '</h2></div>' +
+                '<footer class="article-meta"><div class="inline-meta">' +
+                '<svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke-dasharray="0" stroke-dashoffset="0"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>' +
+                '<time class="article-time--published">' + article.date + '</time>' +
+                '<svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>' +
+                '<time class="article-time--reading">' + article.readingTime + ' minute read</time>' +
+                '</div></footer></div></header></article>';
+        });
+        
+        if (append) {
+            container.insertAdjacentHTML('beforeend', html);
+        } else {
+            container.innerHTML = html;
+        }
+    }
+    
+    function escapeHtml(text) {
+        var div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+    
+    // 加载下一页
+    function loadNextPage() {
+        if (isLoading) return;
+        
+        var startIndex = currentPage * pageSize;
+        var endIndex = startIndex + pageSize;
+        
+        if (startIndex >= allArticles.length) {
+            // 没有更多文章了
+            if (pagination) pagination.style.display = 'none';
+            return;
         }
         
-        html += '<article class="article-filter-item" data-tags="' + article.tags.join(',') + '"><header class="article-header"><div class="article-details">' +
-            categoryHtml +
-            '<div class="article-title-wrapper"><h2 class="article-title">' +
-            '<a href="' + article.url + '">' + article.title + '</a>' +
-            '</h2></div>' +
-            '<footer class="article-meta"><div class="inline-meta">' +
-            '<time class="article-time--published">' + article.date + '</time>' +
-            '<time class="article-time--reading">' + article.readingTime + ' minute read</time>' +
-            '</div></footer></div></header></article>';
-    });
+        isLoading = true;
+        
+        // 添加加载指示器
+        var loader = document.createElement('div');
+        loader.id = 'infinite-loader';
+        loader.style.cssText = 'text-align: center; padding: 20px; opacity: 0.6;';
+        loader.textContent = '加载中...';
+        container.appendChild(loader);
+        
+        // 模拟网络延迟（可选，让加载更明显）
+        setTimeout(function() {
+            var nextPageArticles = allArticles.slice(startIndex, endIndex);
+            renderArticles(nextPageArticles, true);
+            
+            // 移除加载指示器
+            var loaderEl = document.getElementById('infinite-loader');
+            if (loaderEl) loaderEl.remove();
+            
+            currentPage++;
+            isLoading = false;
+            
+            // 如果已经加载完所有文章，隐藏分页
+            if (endIndex >= allArticles.length) {
+                if (pagination) pagination.style.display = 'none';
+            }
+        }, 200);
+    }
     
-    container.innerHTML = html;
+    // 初始渲染第一页
+    renderArticles(allArticles.slice(0, pageSize), false);
+    
+    // 隐藏分页导航（改用无限滚动）
+    if (pagination) pagination.style.display = 'none';
+    
+    // 滚动监听
+    var scrollTimeout;
+    window.addEventListener('scroll', function() {
+        if (scrollTimeout) return;
+        scrollTimeout = setTimeout(function() {
+            scrollTimeout = null;
+            
+            // 如果正在筛选标签，不触发无限滚动
+            if (window.activeTagFilters && window.activeTagFilters.size > 0) return;
+            
+            var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            var windowHeight = window.innerHeight;
+            var docHeight = document.documentElement.scrollHeight;
+            
+            // 距离底部 300px 时触发加载
+            if (scrollTop + windowHeight >= docHeight - 300) {
+                loadNextPage();
+            }
+        }, 100);
+    });
 });
 </script>
 {{ end }}
