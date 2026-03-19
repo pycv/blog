@@ -378,7 +378,13 @@
 {{ if $isHomepage }}
 <script>
 // 页面加载时用 JS 重新渲染第一页（使用自定义颜色）
+// 只在真正的首页执行，分页页面跳过
 document.addEventListener('DOMContentLoaded', function() {
+    // 检测是否是分页页面（URL 包含 /page/）
+    if (window.location.pathname.match(/\/page\/\d+\/?$/)) {
+        return; // 分页页面不执行，保持 Hugo 生成的静态内容
+    }
+    
     var dataScript = document.getElementById('all-articles-data');
     if (!dataScript) return;
     
