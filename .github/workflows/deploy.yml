@@ -36,6 +36,24 @@ jobs:
       - name: Build
         run: hugo --minify
 
+      - name: Verify build
+        run: |
+          # 检查是否有页面生成
+          if [ -z "$(ls -A public/ 2>/dev/null)" ]; then
+            echo "❌ Build failed: public/ is empty"
+            exit 1
+          fi
+          # 统计生成的页面数
+          page_count=$(find public -name "index.html" | wc -l)
+          echo "✅ Build verified: $page_count pages generated"
+          # 检查关键目录
+          for dir in posts excerpts; do
+            if [ -d "public/$dir" ]; then
+              count=$(find "public/$dir" -name "index.html" | wc -l)
+              echo "  - $dir: $count pages"
+            fi
+          done
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
