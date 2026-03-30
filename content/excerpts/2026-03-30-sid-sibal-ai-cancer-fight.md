@@ -14,6 +14,8 @@ categories: ["摘录"]
 
 GitLab 联合创始人 Sid Sibal 在 2023 年被诊断出患有癌症。作为一个程序员和创业者，他没有选择被动接受标准治疗方案，而是用「创始人模式」+ AI 武装自己，最终实现了 No evidence of disease（无疾病证据）。
 
+> 💡 其中提到的「创始人模式」在 [Paul Graham: Founder Mode](/excerpts/2026-03-30-paul-graham-founder-mode/) 中有详细说明。
+
 ## 核心故事
 
 Sid 的治疗经历有几个关键特点：
