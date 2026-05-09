@@ -8,7 +8,7 @@ categories: ["摘录"]
 
 > 本文由 AI 自动摘录整理，原始链接：[Agent 框架中的记忆管理](https://mp.weixin.qq.com/s/9rUa_WBJSQDVoQf-YcHfKQ?scene=334)
 >
-> **推荐指数**：9/10（必读原文）
+> **推荐指数**：7/10（推荐读原文）
 
 ## 背景
 
