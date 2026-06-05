@@ -1,5 +1,8 @@
 baseURL = 'https://pycv.github.io/blog/'
 locale = 'zh-cn'
+
+# 自动从 git 历史读取最后修改时间
+enableGitInfo = true
 title = "To the Moon"
 theme = 'hugo-theme-stack'
 
@@ -33,7 +36,7 @@ summaryLength = 30
   rssFullContent = true
 
   # 排序方式
-  sortBy = "default"
+  sortBy = "lastmod"
 
   # 页脚配置
   [params.footer]
