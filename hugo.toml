@@ -22,7 +22,7 @@ summaryLength = 30
 [module]
   [module.hugoVersion]
     extended = true
-    min = "0.157.0"
+    min = "0.167.0"
 
 # 主题参数
 [params]
