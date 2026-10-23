@@ -1,6 +1,6 @@
 ---
 title: "用 AI 要更有野心：Claude Code 负责人的四层方法"
-date: 2026-10-23T18:45:00+08:00
+date: 2026-10-23T18:30:00+08:00
 draft: false
 tags: ["AI", "思考", "工具", "效率"]
 categories: ["摘录"]
