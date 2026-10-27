@@ -83,8 +83,10 @@
 {{- $articles := slice -}}
 {{- range $allPages -}}
     {{- $tags := slice -}}
+    {{- $tagLinks := slice -}}
     {{- range .GetTerms "tags" -}}
         {{- $tags = $tags | append .LinkTitle -}}
+        {{- $tagLinks = $tagLinks | append (dict "name" .LinkTitle "url" .RelPermalink) -}}
     {{- end -}}
     {{- $category := "" -}}
     {{- range .GetTerms "categories" -}}
@@ -94,6 +96,7 @@
         "title" .Title 
         "url" .RelPermalink 
         "tags" $tags 
+        "tagLinks" $tagLinks
         "category" $category
         "date" (.Date.Format "2006-01-02")
         "readingTime" .ReadingTime
@@ -263,7 +266,7 @@
                 '<time class="article-time--published">' + article.date + '</time>' +
                 '<svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>' +
                 '<time class="article-time--reading">' + article.readingTime + ' minute read</time>' +
-                '</div></footer></div></header></article>';
+                '</div></footer></div></header>' + buildTagsHtml(article) + '</article>';
         });
         
         container.innerHTML = html;
@@ -308,7 +311,7 @@
                 '<time class="article-time--published">' + article.date + '</time>' +
                 '<svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>' +
                 '<time class="article-time--reading">' + article.readingTime + ' minute read</time>' +
-                '</div></footer></div></header></article>';
+                '</div></footer></div></header>' + buildTagsHtml(article) + '</article>';
         });
         
         if (filtered.length === 0) {
@@ -343,6 +346,13 @@
         var div = document.createElement('div');
         div.textContent = text;
         return div.innerHTML;
+    }
+
+    function buildTagsHtml(article) {
+        if (!article.tagLinks || !article.tagLinks.length) return '';
+        return '<div class="article-card-tags">' + article.tagLinks.map(function(t) {
+            return '<a href="' + t.url + '">#' + escapeHtml(t.name) + '</a>';
+        }).join('') + '</div>';
     }
     
     function updateFilterActions() {
@@ -427,7 +437,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 '<time class="article-time--published">' + article.date + '</time>' +
                 '<svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>' +
                 '<time class="article-time--reading">' + article.readingTime + ' minute read</time>' +
-                '</div></footer></div></header></article>';
+                '</div></footer></div></header>' + buildTagsHtml(article) + '</article>';
         });
         
         if (append) {
@@ -441,6 +451,13 @@ document.addEventListener('DOMContentLoaded', function() {
         var div = document.createElement('div');
         div.textContent = text;
         return div.innerHTML;
+    }
+
+    function buildTagsHtml(article) {
+        if (!article.tagLinks || !article.tagLinks.length) return '';
+        return '<div class="article-card-tags">' + article.tagLinks.map(function(t) {
+            return '<a href="' + t.url + '">#' + escapeHtml(t.name) + '</a>';
+        }).join('') + '</div>';
     }
     
     // 加载下一页
