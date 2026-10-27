@@ -108,6 +108,13 @@ summaryLength = 30
   pre = "book"
 
 [[menu.main]]
+  identifier = "tools"
+  name = "工具"
+  url = "https://pycv.github.io/tools/"
+  weight = 4
+  pre = "tool"
+
+[[menu.main]]
   identifier = "about"
   name = "关于"
   url = "/about/"
