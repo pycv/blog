@@ -368,10 +368,11 @@ main.main {
 .article-card-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 4px 12px;
-    padding: 0 var(--card-padding) var(--card-padding);
-    font-size: 1.4rem;
-    line-height: 1.5;
+    gap: 2px 10px;
+    margin-top: calc(var(--spacing-sm) - var(--card-padding));
+    padding: 0 var(--card-padding) var(--spacing-md);
+    font-size: 1.3rem;
+    line-height: 1.4;
 
     a {
         color: var(--card-text-color-secondary);
