@@ -6,4 +6,9 @@
 {{ end }}
 <article class="article-filter-item {{ if $image }}has-image{{ end }}" data-tags="{{ delimit $tagNames "," }}">
     {{ partial "article/components/header" (dict "Page" . "IsList" true) }}
+    {{ with .GetTerms "tags" }}
+    <div class="article-card-tags">
+        {{ range . }}<a href="{{ .RelPermalink }}">#{{ .LinkTitle }}</a>{{ end }}
+    </div>
+    {{ end }}
 </article>

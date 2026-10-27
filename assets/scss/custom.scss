@@ -361,3 +361,26 @@ main.main {
     color: #065f46;
     border-color: transparent;
 }
+
+
+/* ==================== 首页卡片标签 ==================== */
+
+.article-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    padding: 0 var(--card-padding) var(--card-padding);
+    font-size: 1.4rem;
+    line-height: 1.5;
+
+    a {
+        color: var(--card-text-color-secondary);
+        text-decoration: none;
+        transition: color 0.2s ease;
+
+        &:hover {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+    }
+}
